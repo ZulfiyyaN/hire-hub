@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "job_postings")
+@Table(name = "job_postings_details")
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -35,10 +35,6 @@ public class JobPostingInfoEntity {
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAtProfile = LocalDateTime.now();
     LocalDateTime expiredDate;
-
-
-
-
     @OneToOne
     @JoinColumn(name = "jobPosting_id")
     private JobPostingEntity jobPostingEntity;
