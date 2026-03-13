@@ -1,0 +1,35 @@
+Company - create job_posting
+          search candidate
+          update job_posting
+          delete job_posting
+          change job_status
+
+
+Candidate - create candidate_profile
+            delete candidate_profile
+            update candidate_profile
+            search vakancies
+            change candidate_status
+
+Admin - delete company_job_posting
+        delete candidate_profile
+        block company
+        block candidate
+
+
+
+
+QEYD:
+
+1. Using Security.
+2. All profiles shoul be accepted by admin.
+3. Even admin should cant see the passwords.
+4. Needed the table for passwords.
+5. Add phone field for candidates.
+6. ---------------------Enum - job Type - volunteer, full-time, Part-time, freelance,
+7. Enum - jobposting position - mutexessis
+8. 18 yasdan asagilar profile yarada bilmesin.
+9. Candidate classlari arasinda elaqe qur.
+10. Candidate DTo classi yarat.
+
+
