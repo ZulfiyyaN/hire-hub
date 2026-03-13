@@ -1,6 +1,6 @@
 package com.example.hirehub.model.entity;
 
-import com.example.hirehub.model.enumeration.CandidateStatus;
+import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.Gender;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 
         @Enumerated(EnumType.STRING)
         @Column(nullable = false)
-        CandidateStatus status = CandidateStatus.PENDING;
+        Status status = Status.PENDING;
         @Column(name = "created_at", updatable = false)
         LocalDateTime createdAt = LocalDateTime.now();
         @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)

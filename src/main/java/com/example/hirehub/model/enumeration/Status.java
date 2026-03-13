@@ -1,6 +1,6 @@
 package com.example.hirehub.model.enumeration;
 
-public enum CandidateStatus {
+public enum Status {
     ACTIVE,
     DEACTIVATED,
     PENDING;
