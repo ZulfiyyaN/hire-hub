@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class CandidateServiceImpl implements CandidateService {
     CandidateRepository candidateRepository;
     CandidateMapper candidateMapper;
-
+    PasswordEncoder passwordEncoder;
 
     @Override
     public CandidateRegisterResponse candidateRegister(CandidateRegisterRequest request) {
