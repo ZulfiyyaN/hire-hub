@@ -18,7 +18,6 @@ public class JobPostingInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Enumerated(EnumType.STRING)
     String companyName;
     String jobTitle;
     String eduReq;      //Education Requirements
