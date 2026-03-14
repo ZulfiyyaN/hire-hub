@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+
 @Getter
 @Setter
 public class CandidateRegisterRequest {
@@ -16,6 +17,11 @@ public class CandidateRegisterRequest {
 
     @NotBlank(message = "Surname can not be blank!")
     String surname;
+
+    @NotBlank(message = "Password can not be blank!")
+    @Size(min = 8, max = 20, message = "Symbol should be more than 8, less than 20")
+    String password;
+
 
     @Email(message = "Email format is not correct ")
     @NotBlank(message = "Email info is important")

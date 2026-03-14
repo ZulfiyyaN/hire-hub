@@ -10,32 +10,31 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
-    @Entity
-    @Table(name = "candidates")
-    @Getter
-    @Setter
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    public class CandidateEntity {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id;
-        String name;
-        String surname;
-        @Column(unique = true, nullable = false)
-        String email;
-        @Column(unique = true, nullable = false)
-        String phone;
-        @Column(nullable = false)
-        Gender gender;
+@Entity
+@Table(name = "candidates")
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class CandidateEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    String name;
+    String surname;
+    @Column(unique = true, nullable = false)
+    String email;
+    @Column(unique = true, nullable = false)
+    String phone;
+    @Column(nullable = false)
+    Gender gender;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    Status status = Status.PENDING;
+    @Column(name = "created_at", updatable = false)
+    LocalDateTime createdAt = LocalDateTime.now();
+    @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
+    CandidateInfoEntity candidateInfo;
+    @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
+    CandidatePasswordEntity passwordEntity;
 
-        // String password;
-
-        @Enumerated(EnumType.STRING)
-        @Column(nullable = false)
-        Status status = Status.PENDING;
-        @Column(name = "created_at", updatable = false)
-        LocalDateTime createdAt = LocalDateTime.now();
-        @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
-        CandidateInfoEntity candidateInfo;
-
-    }
+}

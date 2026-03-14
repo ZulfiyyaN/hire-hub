@@ -23,6 +23,7 @@ public class CandidateServiceImpl implements CandidateService {
     CandidateRepository candidateRepository;
     CandidateMapper candidateMapper;
 
+
     @Override
     public CandidateRegisterResponse candidateRegister(CandidateRegisterRequest request) {
         if (candidateRepository.existsByEmail(request.getEmail())) {

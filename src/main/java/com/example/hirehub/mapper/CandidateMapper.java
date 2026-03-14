@@ -2,6 +2,7 @@ package com.example.hirehub.mapper;
 
 import com.example.hirehub.model.entity.CandidateEntity;
 import com.example.hirehub.model.entity.CandidateInfoEntity;
+import com.example.hirehub.model.entity.CandidatePasswordEntity;
 import com.example.hirehub.model.request.CandidateRegisterRequest;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,9 @@ public class CandidateMapper {
         entity.setPhone(request.getPhone());
         entity.setGender(request.getGender());
 
+        CandidatePasswordEntity passwordEntity = new CandidatePasswordEntity();
+        passwordEntity.setPassword(request.getPassword());
+
         CandidateInfoEntity candidateInfo = new CandidateInfoEntity();
         candidateInfo.setDateOfBirth(request.getDateOfBirth());
         candidateInfo.setEducation(request.getEducation());
@@ -31,7 +35,9 @@ public class CandidateMapper {
         candidateInfo.setKnowledge(request.getKnowledge());
 
         entity.setCandidateInfo(candidateInfo);
+        entity.setPasswordEntity(passwordEntity);
         candidateInfo.setCandidate(entity);
+        passwordEntity.setCandidate(entity);
 
         return entity;
 
