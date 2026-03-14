@@ -37,4 +37,5 @@ import java.time.LocalDateTime;
         LocalDateTime createdAt = LocalDateTime.now();
         @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
         CandidateInfoEntity candidateInfo;
-}
+
+    }
