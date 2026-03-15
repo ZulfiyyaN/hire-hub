@@ -5,20 +5,27 @@ import com.example.hirehub.model.entity.CandidateInfoEntity;
 import com.example.hirehub.model.entity.CandidatePasswordEntity;
 import com.example.hirehub.model.request.CandidateRegisterRequest;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level= AccessLevel.PRIVATE, makeFinal = true)
 public class CandidateMapper {
-
+    PasswordEncoder passwordEncoder;
 
     public CandidateEntity toCandidate(CandidateRegisterRequest request) {
-        CandidateEntity entity = new CandidateEntity();
+
         if (request == null) {
             log.warn("Request can not be null!");
             throw new NullPointerException("Request is null!");
         }
+        CandidateEntity entity = new CandidateEntity();
         entity.setName(request.getName());
         entity.setSurname(request.getSurname());
         entity.setEmail(request.getEmail());
@@ -26,7 +33,7 @@ public class CandidateMapper {
         entity.setGender(request.getGender());
 
         CandidatePasswordEntity passwordEntity = new CandidatePasswordEntity();
-        passwordEntity.setPassword(request.getPassword());
+        passwordEntity.setPassword(passwordEncoder.encode(request.getPassword()));
 
         CandidateInfoEntity candidateInfo = new CandidateInfoEntity();
         candidateInfo.setDateOfBirth(request.getDateOfBirth());
@@ -40,7 +47,6 @@ public class CandidateMapper {
         passwordEntity.setCandidate(entity);
 
         return entity;
-
     }
 
 
