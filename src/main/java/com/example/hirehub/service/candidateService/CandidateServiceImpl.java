@@ -37,7 +37,9 @@ public class CandidateServiceImpl implements CandidateService {
         }
 
         CandidateEntity candidateEntity = candidateMapper.toCandidate(request);
+       candidateEntity =  candidateRepository.save(candidateEntity);
         CandidateRegisterResponse response = candidateMapper.toResponse(candidateEntity);
+        log.info("{} is registered", request.getName() + " "+ request.getSurname());
         return response;
 
     }
