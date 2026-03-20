@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/candidate/register").permitAll()
+                        .requestMatchers("/api/candidate/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
