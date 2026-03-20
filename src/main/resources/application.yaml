@@ -19,3 +19,8 @@ spring:
 server:
   port: 8080
 
+app:
+  jwt:
+    secret: very-very-very-difficul-way-but-it-is-my-choice-very-very-very
+    access-expiration: 30000
+    refresh-expiration: 30000000
