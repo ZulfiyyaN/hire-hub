@@ -1,17 +1,17 @@
 package com.example.hirehub.controller;
 
+import com.example.hirehub.model.request.CandidateLoginRequest;
 import com.example.hirehub.model.request.CandidateRegisterRequest;
+import com.example.hirehub.model.response.AuthResponse;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
+import com.example.hirehub.service.candidateService.AuthService;
 import com.example.hirehub.service.candidateService.CandidateService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/candidate")
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CandidateController {
 
     CandidateService candidateService;
+    AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<CandidateRegisterResponse> register(@RequestBody @Valid CandidateRegisterRequest request) {
@@ -27,5 +28,16 @@ public class CandidateController {
         return ResponseEntity.ok(response);
     }
 
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody CandidateLoginRequest request) {
+        AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "secured endpoint works";
+    }
 
 }
