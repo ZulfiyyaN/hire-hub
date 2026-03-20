@@ -2,8 +2,13 @@ package com.example.hirehub.repository;
 import com.example.hirehub.model.entity.CandidateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CandidateRepository extends JpaRepository<CandidateEntity, Long> {
-    boolean existsByEmail(String email);
+import java.util.Optional;
 
+public interface CandidateRepository extends JpaRepository<CandidateEntity, Long> {
+
+    boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
+
+     Optional<CandidateEntity> findByEmail(String email);
 }
+
