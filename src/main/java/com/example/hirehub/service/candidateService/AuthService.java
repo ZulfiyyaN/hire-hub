@@ -34,8 +34,8 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), passwordEntity.getPassword())) {
             throw new IncorrectPasswordException("Password is not correct!");
         }
-        String accessToken = jwtService.generateAccessToken(passwordEntity.getCandidate().getEmail());
-        String refreshToken = jwtService.generateRefreshToken(passwordEntity.getCandidate().getEmail());
+        String accessToken = "Bearer " + jwtService.generateAccessToken(passwordEntity.getCandidate().getEmail());
+        String refreshToken = "Bearer " + jwtService.generateRefreshToken(passwordEntity.getCandidate().getEmail());
 
         return new AuthResponse(accessToken, refreshToken);
     }
