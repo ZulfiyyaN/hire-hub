@@ -22,7 +22,6 @@ public class CandidateRegisterRequest {
     @Size(min = 8, max = 20, message = "Symbol should be more than 8, less than 20")
     String password;
 
-
     @Email(message = "Email format is not correct ")
     @NotBlank(message = "Email info is important")
     String email;
@@ -38,10 +37,8 @@ public class CandidateRegisterRequest {
     @Past(message = "Date of birth should be past")
     @NotNull
     LocalDate dateOfBirth;
-
     String education;
     String workExperience;
-
     String knowledge;
-    String certificate;
+
 }
