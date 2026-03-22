@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +33,11 @@ public class CandidateEntity {
     Status status = Status.PENDING;
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt = LocalDateTime.now();
+
+    @LastModifiedDate
+    @Column(name = "last_update")
+     LocalDateTime lastUpdate;
+
     @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
     CandidateInfoEntity candidateInfo;
     @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
