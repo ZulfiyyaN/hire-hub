@@ -35,7 +35,7 @@ public class AuthServiceForCompany {
             throw new IncorrectPasswordException("Password is not correct!");
         }
         String accessToken = "Bearer " + jwtService.generateAccessToken(passwordEntity.getCompany().getEmail());
-        String refreshToken = "Bearer " + jwtService.generateRefreshToken(passwordEntity.getCompany()q.getEmail());
+        String refreshToken = "Bearer " + jwtService.generateRefreshToken(passwordEntity.getCompany().getEmail());
 
         return new AuthResponse(accessToken, refreshToken);
     }
