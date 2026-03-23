@@ -1,6 +1,6 @@
 package com.example.hirehub.security;
 
-import com.example.hirehub.model.entity.CandidateEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

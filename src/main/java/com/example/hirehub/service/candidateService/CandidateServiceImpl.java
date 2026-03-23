@@ -4,10 +4,10 @@ import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.exception.CandidateNotFoundException;
 import com.example.hirehub.mapper.CandidateMapperForRegister;
 import com.example.hirehub.mapper.CandidateMapperForUpdate;
-import com.example.hirehub.model.entity.CandidateEntity;
-import com.example.hirehub.model.entity.CandidateInfoEntity;
-import com.example.hirehub.model.request.CandidateRegisterRequest;
-import com.example.hirehub.model.request.CandidateUpdateRequest;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
+import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
+import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
 import com.example.hirehub.model.response.CandidateUpdateResponse;
 import com.example.hirehub.repository.CandidateRepository;
@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class CandidateServiceImpl implements CandidateService {
     CandidateRepository candidateRepository;
-    CandidateMapperForRegister candidateMapper;q
+    CandidateMapperForRegister candidateMapper;
     CandidateMapperForUpdate candidateMapperForUpdate;
     PasswordEncoder passwordEncoder;
 

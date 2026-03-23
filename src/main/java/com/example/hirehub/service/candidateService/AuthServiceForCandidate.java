@@ -1,9 +1,9 @@
 package com.example.hirehub.service.candidateService;
 
 import com.example.hirehub.exception.IncorrectPasswordException;
-import com.example.hirehub.model.entity.CandidateEntity;
-import com.example.hirehub.model.entity.CandidatePasswordEntity;
-import com.example.hirehub.model.request.CandidateLoginRequest;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidatePasswordEntity;
+import com.example.hirehub.model.request.candidateRequest.CandidateLoginRequest;
 import com.example.hirehub.model.response.AuthResponse;
 import com.example.hirehub.repository.CandidateRepository;
 import com.example.hirehub.security.JwtService;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
-public class AuthService {
+public class AuthServiceForCandidate {
     JwtService jwtService;
     PasswordEncoder passwordEncoder;
     CandidateRepository candidateRepository;
