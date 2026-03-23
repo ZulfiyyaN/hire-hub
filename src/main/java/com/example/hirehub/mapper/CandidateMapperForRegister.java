@@ -1,12 +1,10 @@
 package com.example.hirehub.mapper;
 
-import com.example.hirehub.model.entity.CandidateEntity;
-import com.example.hirehub.model.entity.CandidateInfoEntity;
-import com.example.hirehub.model.entity.CandidatePasswordEntity;
-import com.example.hirehub.model.request.CandidateRegisterRequest;
-import com.example.hirehub.model.request.CandidateUpdateRequest;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidatePasswordEntity;
+import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
