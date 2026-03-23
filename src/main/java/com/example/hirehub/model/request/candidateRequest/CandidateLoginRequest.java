@@ -1,4 +1,4 @@
-package com.example.hirehub.model.request;
+package com.example.hirehub.model.request.candidateRequest;
 
 import lombok.AccessLevel;
 import lombok.Data;
