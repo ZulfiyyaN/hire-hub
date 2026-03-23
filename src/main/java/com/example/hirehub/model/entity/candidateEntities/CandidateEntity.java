@@ -1,4 +1,4 @@
-package com.example.hirehub.model.entity;
+package com.example.hirehub.model.entity.candidateEntities;
 
 import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.Gender;

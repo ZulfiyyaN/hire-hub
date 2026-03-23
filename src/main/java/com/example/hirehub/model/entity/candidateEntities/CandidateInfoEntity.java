@@ -1,4 +1,4 @@
-package com.example.hirehub.model.entity;
+package com.example.hirehub.model.entity.candidateEntities;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
