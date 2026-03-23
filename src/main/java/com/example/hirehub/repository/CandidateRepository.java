@@ -1,5 +1,5 @@
 package com.example.hirehub.repository;
-import com.example.hirehub.model.entity.CandidateEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
