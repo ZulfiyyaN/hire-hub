@@ -1,12 +1,12 @@
 package com.example.hirehub.controller;
 
-import com.example.hirehub.model.request.CandidateLoginRequest;
-import com.example.hirehub.model.request.CandidateRegisterRequest;
-import com.example.hirehub.model.request.CandidateUpdateRequest;
+import com.example.hirehub.model.request.candidateRequest.CandidateLoginRequest;
+import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
+import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.response.AuthResponse;
 import com.example.hirehub.model.response.CandidateRegisterResponse;
 import com.example.hirehub.model.response.CandidateUpdateResponse;
-import com.example.hirehub.service.candidateService.AuthService;
+import com.example.hirehub.service.candidateService.AuthServiceForCandidate;
 import com.example.hirehub.service.candidateService.CandidateService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class CandidateController {
 
     CandidateService candidateService;
-    AuthService authService;
+    AuthServiceForCandidate authService;
 
     @PostMapping("/register")
     public ResponseEntity<CandidateRegisterResponse> register(@RequestBody @Valid CandidateRegisterRequest request) {
