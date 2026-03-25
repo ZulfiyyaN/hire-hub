@@ -28,8 +28,11 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/candidate/register",
-                                "/api/candidate/login").permitAll()
-                        .requestMatchers("/api/candidate/update").authenticated()
+                                "/api/candidate/login",
+                                "/api/company/register",
+                                "/api/company/login").permitAll()
+                        .requestMatchers("/api/candidate/update",
+                                "/api/company/update").authenticated()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
