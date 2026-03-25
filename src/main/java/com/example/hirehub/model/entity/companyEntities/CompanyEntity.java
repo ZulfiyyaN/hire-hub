@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -27,6 +28,10 @@ public class CompanyEntity {
     Status status = Status.PENDING; //by default
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt = LocalDateTime.now();
+    @LastModifiedDate
+    @Column(name = "last_update")
+    LocalDateTime lastUpdate;
+
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     private CompanyInfoEntity companyInfo;
 
