@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 public class CompanyRegisterRequest {
 
-    @NotBlank(message = "Surname can not be blank!")
+    @NotBlank(message = "Name can not be blank!")
     String name;
     @Email(message = "Email format is not correct ")
     @NotBlank(message = "Email info is important")
