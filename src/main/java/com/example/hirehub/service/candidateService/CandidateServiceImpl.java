@@ -8,8 +8,8 @@ import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
-import com.example.hirehub.model.response.CandidateRegisterResponse;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 import com.example.hirehub.repository.CandidateRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -32,7 +32,6 @@ public class CandidateServiceImpl implements CandidateService {
     CandidateRepository candidateRepository;
     CandidateMapperForRegister candidateMapper;
     CandidateMapperForUpdate candidateMapperForUpdate;
-    PasswordEncoder passwordEncoder;
 
     @Override
     public CandidateRegisterResponse candidateRegister(CandidateRegisterRequest request) {
