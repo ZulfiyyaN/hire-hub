@@ -35,7 +35,7 @@ public class CandidateEntity {
     LocalDateTime createdAt = LocalDateTime.now();
 
     @LastModifiedDate
-    @Column(name = "last_update")
+    @Column(name = "last_update_candidate")
      LocalDateTime lastUpdate;
 
     @OneToOne(mappedBy = "candidate", cascade = CascadeType.ALL)
