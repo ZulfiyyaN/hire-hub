@@ -4,6 +4,8 @@ import com.example.hirehub.model.request.companyRequest.CompanyLoginRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.*;
+import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
+import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 import com.example.hirehub.service.companyService.AuthServiceForCompany;
 import com.example.hirehub.service.companyService.CompanyService;
 import jakarta.validation.Valid;

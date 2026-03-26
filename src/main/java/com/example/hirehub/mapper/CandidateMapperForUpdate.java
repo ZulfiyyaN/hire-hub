@@ -2,7 +2,7 @@ package com.example.hirehub.mapper;
 
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 import com.example.hirehub.repository.CandidateRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

@@ -4,7 +4,7 @@ import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidatePasswordEntity;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
-import com.example.hirehub.model.response.CandidateRegisterResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

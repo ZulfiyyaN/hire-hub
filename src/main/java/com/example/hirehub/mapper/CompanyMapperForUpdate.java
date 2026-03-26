@@ -1,12 +1,8 @@
 package com.example.hirehub.mapper;
 
-import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
-import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyInfoEntity;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
-import com.example.hirehub.model.response.CompanyUpdateResponse;
-import com.example.hirehub.repository.CandidateRepository;
+import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 import com.example.hirehub.repository.CompanyRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
