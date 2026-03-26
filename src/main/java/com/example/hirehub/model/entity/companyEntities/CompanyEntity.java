@@ -1,6 +1,7 @@
 package com.example.hirehub.model.entity.companyEntities;
 
 import com.example.hirehub.model.entity.candidateEntities.CandidatePasswordEntity;
+import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.enumeration.Status;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,8 +9,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "companies")
@@ -29,7 +33,6 @@ public class CompanyEntity {
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt = LocalDateTime.now();
     @LastModifiedDate
-    @Column(name = "last_update")
     LocalDateTime lastUpdate;
 
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
@@ -38,5 +41,7 @@ public class CompanyEntity {
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL)
     CompanyPasswordEntity companyPasswordEntity;
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    List<JobPostingEntity> jobPosting;
 
 }
