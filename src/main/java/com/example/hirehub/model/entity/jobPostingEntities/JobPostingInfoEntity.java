@@ -30,6 +30,6 @@ public class JobPostingInfoEntity {
     String position;
     @OneToOne
     @JoinColumn(name = "jobPosting_id")
-    private JobPostingEntity jobPostingEntity;
+    JobPostingEntity jobPostingEntity;
 
 }
