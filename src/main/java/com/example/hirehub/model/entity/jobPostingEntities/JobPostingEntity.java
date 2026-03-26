@@ -31,7 +31,7 @@ public class JobPostingEntity {
     @LastModifiedDate
     LocalDateTime lastUpdate;
     @OneToOne(mappedBy = "jobPostingEntity", cascade = CascadeType.ALL)
-    private JobPostingInfoEntity jobPostingInfoEntity;
+    JobPostingInfoEntity jobPostingInfoEntity;
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     CompanyEntity company;
