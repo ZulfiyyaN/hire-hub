@@ -2,8 +2,8 @@ package com.example.hirehub.service.candidateService;
 
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
-import com.example.hirehub.model.response.CandidateRegisterResponse;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
+import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 
 public interface CandidateService {
 
