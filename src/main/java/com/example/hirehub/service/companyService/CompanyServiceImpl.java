@@ -7,8 +7,8 @@ import com.example.hirehub.mapper.CompanyMapperForUpdate;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
-import com.example.hirehub.model.response.CompanyRegisterResponse;
-import com.example.hirehub.model.response.CompanyUpdateResponse;
+import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
+import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 import com.example.hirehub.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -31,8 +31,6 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyRepository companyRepository;
     CompanyMapperForRegister companyMapperForRegister;
     CompanyMapperForUpdate companyMapperForUpdate;
-
-    PasswordEncoder passwordEncoder;
 
     @Override
     public CompanyRegisterResponse companyRegister(CompanyRegisterRequest request) {

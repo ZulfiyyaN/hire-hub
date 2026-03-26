@@ -1,11 +1,9 @@
 package com.example.hirehub.service.companyService;
 
-import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
-import com.example.hirehub.model.response.CandidateUpdateResponse;
-import com.example.hirehub.model.response.CompanyRegisterResponse;
-import com.example.hirehub.model.response.CompanyUpdateResponse;
+import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
+import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 
 public interface CompanyService {
 
