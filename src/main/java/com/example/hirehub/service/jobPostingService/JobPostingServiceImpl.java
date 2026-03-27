@@ -2,9 +2,12 @@ package com.example.hirehub.service.jobPostingService;
 
 import com.example.hirehub.exception.CompanyNotFoundException;
 import com.example.hirehub.mapper.JobPostingMapperForCreate;
+import com.example.hirehub.mapper.JobPostingMapperForUpdate;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
+import com.example.hirehub.model.request.jobPostingRequest.JobPostingUpdateRequest;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
+import com.example.hirehub.model.response.jobPostingResponse.JobPostingUpdateResponse;
 import com.example.hirehub.repository.CompanyRepository;
 import com.example.hirehub.repository.JobPostingRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +23,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     CompanyRepository companyRepository;
     JobPostingMapperForCreate jobPostingMapperForCreate;
     JobPostingRepository jobPostingRepository;
+    JobPostingMapperForUpdate jobPostingMapperForUpdate;
 
     @Override
     public JobPostingCreateResponse createJobPost(String email, JobPostingCreateRequest request) {
@@ -32,5 +36,21 @@ public class JobPostingServiceImpl implements JobPostingService {
 
         jobPostingRepository.save(entity);
         return response;
+    }
+
+    @Override
+    public JobPostingUpdateResponse updateJobPost(String email, JobPostingUpdateRequest request) {
+        if (!companyRepository.existsByEmail(email)) {
+            log.warn("Email is wrong!");
+            throw new CompanyNotFoundException("Company not found!");
+        }
+
+        JobPostingEntity entity = jobPostingMapperForUpdate.toEntityForUpdate(request);
+        JobPostingUpdateResponse response = jobPostingMapperForUpdate.toResponseForUpdate(entity);
+        jobPostingRepository.save(entity);
+
+        return response;
+
+
     }
 }
