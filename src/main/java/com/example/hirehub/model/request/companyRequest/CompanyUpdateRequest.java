@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Setter
 public class CompanyUpdateRequest {
 
-    @NotBlank(message = "Name can not be blank!")
     String name;
     String location;
     String website;
