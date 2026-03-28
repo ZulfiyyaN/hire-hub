@@ -19,8 +19,8 @@ public class JobPostingCreateRequest {
     @NotBlank(message = "Skills can not be blank!")
     String skills;     //Skills & Qualifications
     String location;
-    WorkType workType;
-    WorkPlace workPlace;  //Remote, On-Site or Hybrid
+    WorkType workType; // FULLTIME, PARTTIME, CONTRACT, FREELANCE, VOLUNTEER;
+    WorkPlace workPlace;  // REMOTE, ON_SITE, HYBRID
     Double salary;
     String position;
     @Future (message = "Expired date should be future date")
