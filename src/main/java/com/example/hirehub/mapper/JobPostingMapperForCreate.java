@@ -4,7 +4,16 @@ import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingInfoEntity;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@FieldDefaults(level= AccessLevel.PRIVATE, makeFinal = true)
 public class JobPostingMapperForCreate {
 
 
