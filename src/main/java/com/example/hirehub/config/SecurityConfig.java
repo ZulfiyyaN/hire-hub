@@ -27,18 +27,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenFilter jwtTokenFilter) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/candidate/register",
-                                "/api/candidate/login",
-                                "/api/company/register",
-                                "/api/company/login").permitAll()
-                        .requestMatchers("/api/candidate/update",
-                                "/api/company/update").authenticated()
+                        .requestMatchers("/api/company/register",
+                                "/api/candidate/register",
+                                "/api/auth/**").permitAll()
+                        .requestMatchers("/api/company/**",
+                                "/api/job_posting/**").hasRole("COMPANY")
+                        .requestMatchers(
+                                "/api/candidate/**").hasRole("CANDIDATE")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         return http.build();
     }
 
