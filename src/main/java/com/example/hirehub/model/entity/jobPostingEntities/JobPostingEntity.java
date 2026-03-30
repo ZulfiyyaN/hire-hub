@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@SQLRestriction("status = 'ACTIVE'")
 public class JobPostingEntity {
 
     @Id
@@ -30,6 +32,9 @@ public class JobPostingEntity {
     LocalDateTime expiredDate;
     @LastModifiedDate
     LocalDateTime lastUpdate;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    Status status = Status.PENDING;
     @OneToOne(mappedBy = "jobPostingEntity", cascade = CascadeType.ALL)
     JobPostingInfoEntity jobPostingInfoEntity;
     @ManyToOne
