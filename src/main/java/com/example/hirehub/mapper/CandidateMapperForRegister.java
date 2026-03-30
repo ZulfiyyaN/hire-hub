@@ -3,6 +3,7 @@ package com.example.hirehub.mapper;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidatePasswordEntity;
+import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
 import lombok.AccessLevel;
@@ -31,6 +32,7 @@ public class CandidateMapperForRegister {
         entity.setEmail(request.getEmail());
         entity.setPhone(request.getPhone());
         entity.setGender(request.getGender());
+       // entity.setStatus(request.getStatus());
 
         CandidatePasswordEntity passwordEntity = new CandidatePasswordEntity();
         passwordEntity.setPassword(passwordEncoder.encode(request.getPassword()));
