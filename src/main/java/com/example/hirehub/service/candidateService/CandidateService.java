@@ -12,4 +12,5 @@ public interface CandidateService {
 
     public CandidateUpdateResponse candidateUpdate(String email, CandidateUpdateRequest request);
 
+    public boolean deleteProfilForCandidate(String email);
 }
