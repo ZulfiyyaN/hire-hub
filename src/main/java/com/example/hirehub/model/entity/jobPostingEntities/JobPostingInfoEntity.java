@@ -1,5 +1,6 @@
 package com.example.hirehub.model.entity.jobPostingEntities;
 
+import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.WorkPlace;
 import com.example.hirehub.model.enumeration.WorkType;
 import jakarta.persistence.*;
@@ -7,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.SQLRestriction;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class JobPostingInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
