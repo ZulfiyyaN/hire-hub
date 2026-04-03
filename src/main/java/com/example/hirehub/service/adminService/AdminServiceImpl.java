@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,10 +29,11 @@ public class AdminServiceImpl implements AdminService {
     public boolean changeStatus(Long id, Status status) {
         Optional<UserEntity> optionalUser = userRepository.findByIdNative(id);
         if (optionalUser.isEmpty()) {
-            log.warn("Candidate not found with {} ",id);
+            log.warn("User not found with {} ",id);
             throw new UserNotFoundException("User not found!");
         }
         optionalUser.get().setStatus(status);
+        optionalUser.get().setLastUpdate(LocalDateTime.now());
         userRepository.saveAndFlush(optionalUser.get());
 
         CandidateEntity entity = optionalUser.get().getCandidateEntity();
