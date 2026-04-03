@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//@SQLRestriction("status = 'ACTIVE'")
 public class CandidateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +33,7 @@ public class CandidateEntity {
     Gender gender;
     @Enumerated(EnumType.STRING)
     Role role = Role.CANDIDATE;
-    //    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    Status status;
+
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt = LocalDateTime.now();
 
