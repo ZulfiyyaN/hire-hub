@@ -27,6 +27,7 @@ public class UserEntity {
     String email;
     String password;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     Status status;
 
     @Enumerated(EnumType.STRING)
