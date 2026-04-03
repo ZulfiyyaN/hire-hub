@@ -53,8 +53,6 @@ public class CandidateServiceImpl implements CandidateService {
 
         UserEntity user = new UserEntity();
 
-        user.setName(request.getName());
-        user.setSurname(request.getSurname());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.CANDIDATE);
