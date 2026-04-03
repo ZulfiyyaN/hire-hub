@@ -22,8 +22,8 @@ public class AdminController {
 
 
     @PostMapping("/change_status")
-    public ResponseEntity<?> make_Active(@RequestParam String email, @RequestParam Status status){
-        adminService.changeStatus(email, status);
+    public ResponseEntity<?> make_Active(@RequestParam Long id, @RequestParam Status status){
+        adminService.changeStatus(id, status);
         return ResponseEntity.accepted().build();
     }
 
