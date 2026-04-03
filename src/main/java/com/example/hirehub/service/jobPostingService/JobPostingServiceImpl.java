@@ -52,20 +52,20 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
-    public JobPostingUpdateResponse updateJobPost(String email, Long id, JobPostingUpdateRequest request) {
+    public JobPostingUpdateResponse updateJobPost(String email, Long jobPostId, JobPostingUpdateRequest request) {
         Optional<CompanyEntity> companyEntity = companyRepository.findByEmail(email);
         if (companyEntity.isEmpty()) {
             log.warn("Email is wrong!");
             throw new CompanyNotFoundException("Company not found!");
         }
-        Optional<JobPostingEntity> optionalJobPosting = jobPostingRepository.findByIdNative(id);
+        Optional<JobPostingEntity> optionalJobPosting = jobPostingRepository.findByIdNative(jobPostId);
         if (optionalJobPosting.isEmpty()) {
             log.warn("Job Post Id is wrong!");
             throw new JobPostingNotFoundException("Job Post not found!");
         }
 
         if(companyEntity.get().getId()!= optionalJobPosting.get().getCompany().getId()){
-            log.warn("The company has not job post with {}", id);
+            log.warn("The company has not job post with {}", jobPostId);
             throw  new JobPostingNotFoundException("Job Post not found for the company");
         }
 
@@ -109,5 +109,29 @@ public class JobPostingServiceImpl implements JobPostingService {
         jobPostingRepository.save(optionalJobPosting.get());
         JobPostingUpdateResponse response = jobPostingMapperForUpdate.toResponseForUpdate(optionalJobPosting.get());
         return response;
+    }
+
+    @Override
+    public boolean deleteJobPost(String email, Long jobPostId) {
+        Optional<CompanyEntity> companyEntity = companyRepository.findByEmail(email);
+        if (companyEntity.isEmpty()) {
+            log.warn("Email is wrong!");
+            throw new CompanyNotFoundException("Company not found!");
+        }
+        Optional<JobPostingEntity> optionalJobPosting = jobPostingRepository.findByIdNative(jobPostId);
+        if (optionalJobPosting.isEmpty()) {
+            log.warn("Job Post Id is wrong!");
+            throw new JobPostingNotFoundException("Job Post not found!");
+        }
+        if(companyEntity.get().getId()!= optionalJobPosting.get().getCompany().getId()){
+            log.warn("The company has not job post with {}", jobPostId);
+            throw  new JobPostingNotFoundException("Job Post not found for the company");
+        }
+
+        optionalJobPosting.get().setStatus(StatusJobPost.DELETED);
+        jobPostingRepository.save(optionalJobPosting.get());
+
+        log.info("Post is deleted!");
+        return true;
     }
 }
