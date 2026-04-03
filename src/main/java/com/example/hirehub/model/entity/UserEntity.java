@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,6 +31,10 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     Role role;
+
+    @LastModifiedDate
+    @Column(name = "last_update_status")
+    LocalDateTime lastUpdate;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     CandidateEntity candidateEntity;
