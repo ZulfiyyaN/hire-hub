@@ -4,12 +4,16 @@ import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.exception.CompanyNotFoundException;
 import com.example.hirehub.mapper.CompanyMapperForRegister;
 import com.example.hirehub.mapper.CompanyMapperForUpdate;
+import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
+import com.example.hirehub.model.enumeration.Role;
+import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 import com.example.hirehub.repository.CompanyRepository;
+import com.example.hirehub.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,8 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyRepository companyRepository;
     CompanyMapperForRegister companyMapperForRegister;
     CompanyMapperForUpdate companyMapperForUpdate;
+    UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public CompanyRegisterResponse companyRegister(CompanyRegisterRequest request) {
@@ -39,7 +45,19 @@ public class CompanyServiceImpl implements CompanyService {
             throw new AlreadyExistsException("Candidate with this email already exists");
         }
         CompanyEntity companyEntity = companyMapperForRegister.toCompany(request);
-        companyEntity = companyRepository.save(companyEntity);
+
+        UserEntity user = new UserEntity();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.COMPANY);
+        user.setStatus(Status.PENDING);
+
+        companyEntity.setUser(user);
+        user.setCompanyEntity(companyEntity);
+
+        companyRepository.save(companyEntity);
+        userRepository.save(user);
+
         CompanyRegisterResponse response = companyMapperForRegister.toResponse(companyEntity);
         log.info("{} is registered", request.getName());
         return response;
@@ -71,5 +89,17 @@ public class CompanyServiceImpl implements CompanyService {
 
         CompanyUpdateResponse response = companyMapperForUpdate.toResponseForUpdate(entity.get());
         return response;
+    }
+
+    @Override
+    public boolean deleteProfilForCompany(String email) {
+        Optional<UserEntity> optionalCompany = userRepository.findByEmail(email);
+        if(optionalCompany.isEmpty()){
+            log.warn("User not found: {}", email);
+            throw  new CompanyNotFoundException("Company not found: " + email);
+        }
+        optionalCompany.get().setStatus(Status.DELETED);
+        userRepository.save(optionalCompany.get());
+        return true;
     }
 }

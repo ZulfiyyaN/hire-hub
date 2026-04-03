@@ -7,7 +7,10 @@ import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
 
 public interface CompanyService {
 
-    public CompanyRegisterResponse companyRegister (CompanyRegisterRequest request);
+    public CompanyRegisterResponse companyRegister(CompanyRegisterRequest request);
+
     public CompanyUpdateResponse companyUpdate(String email, CompanyUpdateRequest request);
+
+    public boolean deleteProfilForCompany(String email);
 
 }
