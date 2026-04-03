@@ -3,6 +3,7 @@ package com.example.hirehub.model.entity.jobPostingEntities;
 
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.enumeration.Status;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,8 +25,6 @@ public class JobPostingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Enumerated(EnumType.STRING)
-    Status jobPostingStatus = Status.PENDING;
     String jobTitle;
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAtProfile = LocalDateTime.now();
@@ -34,7 +33,7 @@ public class JobPostingEntity {
     LocalDateTime lastUpdate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    Status status = Status.PENDING;
+    StatusJobPost status;
     @OneToOne(mappedBy = "jobPostingEntity", cascade = CascadeType.ALL)
     JobPostingInfoEntity jobPostingInfoEntity;
     @ManyToOne
