@@ -9,10 +9,13 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/company")
 @RequiredArgsConstructor
@@ -27,8 +30,6 @@ public class CompanyController {
     }
 
 
-
-
     @PutMapping("/update")
     public ResponseEntity<CompanyUpdateResponse> updateInfo(@RequestBody @Valid CompanyUpdateRequest request,
                                                             Authentication authentication) {
@@ -36,5 +37,16 @@ public class CompanyController {
         CompanyUpdateResponse response = companyService.companyUpdate(email, request);
         System.out.println(email);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteCompany(Authentication authentication){
+        if(authentication==null){
+            log.warn("Access denied: No authentication found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Company not found!");
+        }
+        String email = authentication.getName();
+        companyService.deleteProfilForCompany(email);
+        return ResponseEntity.ok("Company is deleted successfully!");
     }
 }
