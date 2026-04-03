@@ -9,9 +9,7 @@ public interface JobPostingService {
 
     public JobPostingCreateResponse createJobPost(String email, JobPostingCreateRequest request);
 
-    public JobPostingUpdateResponse updateJobPost(String email, JobPostingUpdateRequest request);
-
-
+    public JobPostingUpdateResponse updateJobPost(String email, Long id, JobPostingUpdateRequest request);
 
 
 }

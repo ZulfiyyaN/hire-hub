@@ -1,11 +1,13 @@
 package com.example.hirehub.service.jobPostingService;
 
 import com.example.hirehub.exception.CompanyNotFoundException;
+import com.example.hirehub.exception.JobPostingNotFoundException;
 import com.example.hirehub.mapper.JobPostingMapperForCreate;
 import com.example.hirehub.mapper.JobPostingMapperForUpdate;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingInfoEntity;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingUpdateRequest;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
@@ -39,29 +41,43 @@ public class JobPostingServiceImpl implements JobPostingService {
             log.warn("Email is wrong!");
             throw new CompanyNotFoundException("Company not found!");
         }
-        JobPostingEntity entity = jobPostingMapperForCreate.toEntity(request);
-        entity.setCompany(companyEntity.get());
-        jobPostingRepository.save(entity);
-        JobPostingCreateResponse response = jobPostingMapperForCreate.toResponse(entity);
+        JobPostingEntity jobEntity = jobPostingMapperForCreate.toEntity(request);
+        jobEntity.setStatus(StatusJobPost.PENDING);
+        jobEntity.setCompany(companyEntity.get());
 
+        jobPostingRepository.save(jobEntity);
+        JobPostingCreateResponse response = jobPostingMapperForCreate.toResponse(jobEntity);
+        log.info("Job posted successfully!");
         return response;
     }
 
     @Override
-    public JobPostingUpdateResponse updateJobPost(String email, JobPostingUpdateRequest request) {
+    public JobPostingUpdateResponse updateJobPost(String email, Long id, JobPostingUpdateRequest request) {
         Optional<CompanyEntity> companyEntity = companyRepository.findByEmail(email);
         if (companyEntity.isEmpty()) {
             log.warn("Email is wrong!");
             throw new CompanyNotFoundException("Company not found!");
         }
-        JobPostingEntity entity = new JobPostingEntity();
+        Optional<JobPostingEntity> optionalJobPosting = jobPostingRepository.findByIdNative(id);
+        if (optionalJobPosting.isEmpty()) {
+            log.warn("Job Post Id is wrong!");
+            throw new JobPostingNotFoundException("Job Post not found!");
+        }
+
+        if(companyEntity.get().getId()!= optionalJobPosting.get().getCompany().getId()){
+            log.warn("The company has not job post with {}", id);
+            throw  new JobPostingNotFoundException("Job Post not found for the company");
+        }
+
         if (request.getJobTitle() != null) {
-            entity.setJobTitle(request.getJobTitle());
+            optionalJobPosting.get().setJobTitle(request.getJobTitle());
         }
         if (request.getExpiredDate() != null) {
-            entity.setExpiredDate(request.getExpiredDate());
+            optionalJobPosting.get().setExpiredDate(request.getExpiredDate());
         }
-        JobPostingInfoEntity infoEntity = new JobPostingInfoEntity();
+
+        JobPostingInfoEntity infoEntity = optionalJobPosting.get().getJobPostingInfoEntity();
+
         if (request.getEduReq() != null) {
             infoEntity.setEduReq(request.getEduReq());
         }
@@ -87,11 +103,11 @@ public class JobPostingServiceImpl implements JobPostingService {
             infoEntity.setPosition(request.getPosition());
         }
 
-        entity.setJobPostingInfoEntity(infoEntity);
-        entity.setCompany(companyEntity.get());
-        infoEntity.setJobPostingEntity(entity);
-        jobPostingRepository.save(entity);
-        JobPostingUpdateResponse response = jobPostingMapperForUpdate.toResponseForUpdate(entity);
+        optionalJobPosting.get().setJobPostingInfoEntity(infoEntity);
+        infoEntity.setJobPostingEntity(optionalJobPosting.get());
+
+        jobPostingRepository.save(optionalJobPosting.get());
+        JobPostingUpdateResponse response = jobPostingMapperForUpdate.toResponseForUpdate(optionalJobPosting.get());
         return response;
     }
 }
