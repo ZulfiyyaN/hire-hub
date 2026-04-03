@@ -2,8 +2,10 @@ package com.example.hirehub.mapper;
 
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingInfoEntity;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
+import com.example.hirehub.repository.JobPostingRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class JobPostingMapperForCreate {
 
 
+    private final JobPostingRepository jobPostingRepository;
+
     public JobPostingEntity toEntity (JobPostingCreateRequest request){
         JobPostingEntity entity = new JobPostingEntity();
         entity.setJobTitle(request.getJobTitle());
@@ -28,6 +32,7 @@ public class JobPostingMapperForCreate {
         infoEntity.setSkills(request.getSkills());
         infoEntity.setLocation(request.getLocation());
         infoEntity.setWorkType(request.getWorkType());
+        infoEntity.setWorkPlace(request.getWorkPlace());
         infoEntity.setSalary(request.getSalary());
         infoEntity.setPosition(request.getPosition());
 
