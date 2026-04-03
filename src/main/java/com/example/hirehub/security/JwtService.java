@@ -32,10 +32,11 @@ public class JwtService {
     }
 
 
-    public String generateAccessToken(String email) {
+    public String generateAccessToken(String email, String role) {
         return Jwts.builder()
                 .subject(email)
                 .claim("email", email)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessExpiration))
                 .signWith(key)
@@ -43,10 +44,11 @@ public class JwtService {
     }
 
 
-    public String generateRefreshToken(String email) {
+    public String generateRefreshToken(String email, String role) {
         return Jwts.builder()
                 .subject(email)
                 .claim("email", email)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .signWith(key)
@@ -85,5 +87,19 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+
+    public String extractRole(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
+    }
+
+
+
+
 
 }

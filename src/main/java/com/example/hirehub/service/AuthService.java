@@ -36,8 +36,10 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), optionalUser.get().getPassword())) {
             throw new IncorrectPasswordException("Password is not correct!");
         }
-        String accessToken = "Bearer " + jwtService.generateAccessToken(optionalUser.get().getEmail());
-        String refreshToken = "Bearer " + jwtService.generateRefreshToken(optionalUser.get().getEmail());
+        String accessToken = "Bearer " + jwtService.generateAccessToken(optionalUser.get().getEmail(),
+                optionalUser.get().getRole().name());
+        String refreshToken = "Bearer " + jwtService.generateRefreshToken(optionalUser.get().getEmail(),
+                optionalUser.get().getRole().name());
 
         return new AuthResponse(accessToken, refreshToken);
     }
@@ -51,8 +53,10 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), optionalAdmin.get().getPassword())) {
             throw new IncorrectPasswordException("Password is not correct!");
         }
-        String accessToken = "Bearer " + jwtService.generateAccessToken(optionalAdmin.get().getEmail());
-        String refreshToken = "Bearer " + jwtService.generateRefreshToken(optionalAdmin.get().getEmail());
+        String accessToken = "Bearer " + jwtService.generateAccessToken(optionalAdmin.get().getEmail(),
+                optionalAdmin.get().getRole().name());
+        String refreshToken = "Bearer " + jwtService.generateRefreshToken(optionalAdmin.get().getEmail(),
+                optionalAdmin.get().getRole().name());
 
         return new AuthResponse(accessToken, refreshToken);
     }

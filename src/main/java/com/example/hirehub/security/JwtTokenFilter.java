@@ -47,11 +47,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
         if (jwtService.isValid(token)) {
             String candidateEmail = jwtService.extractEmail(token);
+            String role = jwtService.extractRole(token);
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(candidateEmail, null, List.of());
+                    new UsernamePasswordAuthenticationToken(candidateEmail, null,
+                            List.of(() -> "ROLE_" + role));
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            log.info("Token is valid for candidate email: {}", candidateEmail);
+            log.info("Token is valid for candidate email: {}", candidateEmail, role);
         }
 
         filterChain.doFilter(request, response);
