@@ -25,10 +25,10 @@ public class AdminServiceImpl implements AdminService {
     private final CandidateRepository candidateRepository;
 
     @Override
-    public boolean changeStatus(String email, Status status) {
-        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
+    public boolean changeStatus(Long id, Status status) {
+        Optional<UserEntity> optionalUser = userRepository.findByIdNative(id);
         if (optionalUser.isEmpty()) {
-            log.warn("Candidate not found with {} ", email);
+            log.warn("Candidate not found with {} ",id);
             throw new UserNotFoundException("User not found!");
         }
         optionalUser.get().setStatus(status);
