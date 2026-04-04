@@ -2,6 +2,7 @@ package com.example.hirehub.service.candidateService;
 
 import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.exception.CandidateNotFoundException;
+import com.example.hirehub.exception.IncorrectAgeException;
 import com.example.hirehub.mapper.CandidateMapperForRegister;
 import com.example.hirehub.mapper.CandidateMapperForUpdate;
 import com.example.hirehub.model.entity.UserEntity;
@@ -23,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Optional;
 
 @Service
@@ -47,6 +50,10 @@ public class CandidateServiceImpl implements CandidateService {
         if (candidateRepository.existsByPhone(request.getPhone())) {
             log.warn("Phone {} already exists", request.getPhone());
             throw new AlreadyExistsException("Candidate with this phone already exists");
+        }
+        if (Period.between(request.getDateOfBirth(), LocalDate.now()).getYears() < 16) {
+            log.warn("Candidate age should be min 16");
+            throw new IncorrectAgeException("Age should be minimum 16");
         }
 
         CandidateEntity candidateEntity = candidateMapper.toCandidate(request);
