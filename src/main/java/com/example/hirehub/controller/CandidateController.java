@@ -7,6 +7,8 @@ import com.example.hirehub.model.response.AuthResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
+import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
+import com.example.hirehub.repository.JobPostingRepository;
 import com.example.hirehub.service.candidateService.CandidateService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -17,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/candidate")
@@ -35,7 +39,7 @@ public class CandidateController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateInfo(@RequestBody @Valid CandidateUpdateRequest request,
-                                                              Authentication authentication) {
+                                        Authentication authentication) {
         if (authentication == null) {
             log.warn("Access denied: No authentication found");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Candidate not found!");
@@ -48,7 +52,7 @@ public class CandidateController {
 
 
     @PutMapping("/delete")
-    public ResponseEntity deleteCandidate(Authentication authentication){
+    public ResponseEntity deleteCandidate(Authentication authentication) {
         if (authentication == null) {
             log.warn("Access denied: No authentication found");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Candidate not found!");
@@ -59,6 +63,11 @@ public class CandidateController {
     }
 
 
+    @GetMapping("/all_job_posts")
+    public ResponseEntity<List<JobPostResponse>> getAllJobPosts(Authentication authentication) {
+        List<JobPostResponse> jobPosts = candidateService.getAllActiveJobPosts();
+        return ResponseEntity.ok(jobPosts);
+    }
 
 
     @GetMapping("/test")
