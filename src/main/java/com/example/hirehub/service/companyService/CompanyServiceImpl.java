@@ -5,13 +5,16 @@ import com.example.hirehub.exception.CompanyNotFoundException;
 import com.example.hirehub.mapper.CompanyMapperForRegister;
 import com.example.hirehub.mapper.CompanyMapperForUpdate;
 import com.example.hirehub.model.entity.UserEntity;
+import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.enumeration.Role;
 import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
+import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
+import com.example.hirehub.repository.CandidateRepository;
 import com.example.hirehub.repository.CompanyRepository;
 import com.example.hirehub.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -23,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyMapperForUpdate companyMapperForUpdate;
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    CandidateRepository candidateRepository;
 
     @Override
     public CompanyRegisterResponse companyRegister(CompanyRegisterRequest request) {
@@ -94,12 +99,36 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public boolean deleteProfilForCompany(String email) {
         Optional<UserEntity> optionalCompany = userRepository.findByEmail(email);
-        if(optionalCompany.isEmpty()){
+        if (optionalCompany.isEmpty()) {
             log.warn("User not found: {}", email);
-            throw  new CompanyNotFoundException("Company not found: " + email);
+            throw new CompanyNotFoundException("Company not found: " + email);
         }
         optionalCompany.get().setStatus(Status.DELETED);
         userRepository.save(optionalCompany.get());
         return true;
+    }
+
+
+    @Override
+    public List<CandidateResponse> getAllCandidates() {
+        List<CandidateEntity> allCandidates = candidateRepository.findAll();
+        List<CandidateResponse> allResponses = allCandidates.stream()
+                .filter(a-> a.getUser() != null && a.getUser().getStatus()== Status.ACTIVE )
+                .map(c -> new CandidateResponse(
+                                c.getId(),
+                                c.getName(),
+                                c.getSurname(),
+                                c.getEmail(),
+                                c.getPhone(),
+                                c.getGender().name(),
+                                c.getCandidateInfo().getDateOfBirth(),
+                                c.getCandidateInfo().getEducation(),
+                                c.getCandidateInfo().getWorkExperience(),
+                                c.getCandidateInfo().getKnowledge()
+                        )
+                )
+                .toList();
+        return allResponses;
+
     }
 }
