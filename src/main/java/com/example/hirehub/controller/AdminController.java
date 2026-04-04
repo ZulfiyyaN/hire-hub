@@ -25,7 +25,7 @@ public class AdminController {
     AdminService adminService;
 
 
-    @PutMapping("/change_status/{}")
+    @PutMapping("/change_status/{id}")
     public ResponseEntity<?> changeStatusUser(@PathVariable Long id,
                                               @RequestParam Status status) {
         adminService.changeStatus(id, status);
