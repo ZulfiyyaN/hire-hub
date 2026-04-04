@@ -4,8 +4,10 @@ import com.example.hirehub.exception.UserNotFoundException;
 import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
+import com.example.hirehub.model.enumeration.Role;
 import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.StatusJobPost;
+import com.example.hirehub.model.response.UserResponse;
 import com.example.hirehub.repository.CandidateRepository;
 import com.example.hirehub.repository.JobPostingRepository;
 import com.example.hirehub.repository.UserRepository;
@@ -17,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,14 +29,14 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AdminServiceImpl implements AdminService {
     UserRepository userRepository;
-    private final CandidateRepository candidateRepository;
-    private final JobPostingRepository jobPostingRepository;
+    CandidateRepository candidateRepository;
+    JobPostingRepository jobPostingRepository;
 
     @Override
     public boolean changeStatus(Long id, Status status) {
         Optional<UserEntity> optionalUser = userRepository.findByIdNative(id);
         if (optionalUser.isEmpty()) {
-            log.warn("User not found with {} ",id);
+            log.warn("User not found with {} ", id);
             throw new UserNotFoundException("User not found!");
         }
         optionalUser.get().setStatus(status);
@@ -42,7 +45,7 @@ public class AdminServiceImpl implements AdminService {
 
         CandidateEntity entity = optionalUser.get().getCandidateEntity();
 
-        if(entity!=null){
+        if (entity != null) {
             entity.setUser(optionalUser.get());
             optionalUser.get().setCandidateEntity(entity);
             candidateRepository.save(entity);
@@ -55,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
     public boolean changeStatusJobPost(Long id, StatusJobPost status) {
         Optional<JobPostingEntity> optionalPost = jobPostingRepository.findByIdNativeAll(id);
         if (optionalPost.isEmpty()) {
-            log.warn("Job Posting not found with {} ",id);
+            log.warn("Job Posting not found with {} ", id);
             throw new UserNotFoundException("Job Post not found!");
         }
 
@@ -64,5 +67,24 @@ public class AdminServiceImpl implements AdminService {
         jobPostingRepository.save(optionalPost.get());
         log.info("Job Post Status is changed successfully!");
         return true;
+    }
+
+    @Override
+    public List<UserResponse> getAllByStatus(Status status) {
+        List<UserEntity> users = userRepository.findAllByStatus(status.name());
+        if (users.isEmpty()) {
+            log.warn("{} user not found! ", status);
+            throw new UserNotFoundException("Pending " + status + " not found!");
+        }
+
+        List<UserResponse> response = users.stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getRole(),
+                        user.getStatus()
+                ))
+                .toList();
+        return response;
     }
 }
