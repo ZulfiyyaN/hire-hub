@@ -1,6 +1,5 @@
 package com.example.hirehub.service.candidateService;
 
-import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
