@@ -2,10 +2,12 @@ package com.example.hirehub.repository;
 
 import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
+import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface JobPostingRepository extends JpaRepository<JobPostingEntity, Long> {
@@ -15,4 +17,6 @@ public interface JobPostingRepository extends JpaRepository<JobPostingEntity, Lo
 
     @Query(value = "SELECT * FROM job_postings jp WHERE jp.id = :id AND jp.status IN('PENDING', 'ACTIVE', 'DELETED', 'EXPIRED') ", nativeQuery = true)
     Optional<JobPostingEntity> findByIdNativeAll(@Param("id") Long id);
+
+    List<JobPostingEntity> findAll();
 }
