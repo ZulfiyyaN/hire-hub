@@ -27,7 +27,7 @@ public class AdminController {
 
     @PutMapping("/change_status")
     public ResponseEntity<?> changeStatusUser(@RequestParam Long id,
-                                         @RequestParam Status status) {
+                                              @RequestParam Status status) {
         adminService.changeStatus(id, status);
         return ResponseEntity.accepted().build();
     }
@@ -35,20 +35,23 @@ public class AdminController {
 
     @PutMapping("/change_status_job_post/{jobPostId}")
     public ResponseEntity<?> changeStatusJobPost(@PathVariable Long jobPostId,
-                                          @RequestParam StatusJobPost status) {
+                                                 @RequestParam StatusJobPost status) {
         adminService.changeStatusJobPost(jobPostId, status);
         return ResponseEntity.accepted().build();
     }
 
 
     @GetMapping("/all_users_by_status")
-    public ResponseEntity<List<UserResponse>> getAllUsersByStatus (@RequestParam Status status){
-      List<UserResponse> users =  adminService.getAllByStatus(status);
+    public ResponseEntity<List<UserResponse>> getAllUsersByStatus(@RequestParam Status status) {
+        List<UserResponse> users = adminService.getAllByStatus(status);
         return ResponseEntity.ok(users);
     }
 
-
-
+    @GetMapping("/all_users_by_role")
+    public ResponseEntity<List<UserResponse>> getAllUsersByRole(@RequestParam Role role) {
+        List<UserResponse> response = adminService.getAllByRole(role);
+        return ResponseEntity.ok(response);
+    }
 
 
 }
