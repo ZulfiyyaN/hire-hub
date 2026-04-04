@@ -50,5 +50,16 @@ public class JobPostingController {
         return  ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteJobPost(Authentication authentication,
+                                        @RequestParam Long jobPostId){
+        if (authentication == null) {
+            log.warn("Access denied: No authentication found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated");
+        }
+        String email = authentication.getName();
+        jobPostingService.deleteJobPost(email, jobPostId);
+        return ResponseEntity.ok("Job Post is deleted successfully!");
+    }
 
 }
