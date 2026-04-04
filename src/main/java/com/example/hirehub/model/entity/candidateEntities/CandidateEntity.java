@@ -30,6 +30,7 @@ public class CandidateEntity {
     @Column(unique = true, nullable = false)
     String phone;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     Gender gender;
     @Enumerated(EnumType.STRING)
     Role role = Role.CANDIDATE;
