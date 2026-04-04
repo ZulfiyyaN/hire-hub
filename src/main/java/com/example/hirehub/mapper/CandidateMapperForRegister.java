@@ -32,7 +32,6 @@ public class CandidateMapperForRegister {
         entity.setEmail(request.getEmail());
         entity.setPhone(request.getPhone());
         entity.setGender(request.getGender());
-       // entity.setStatus(request.getStatus());
 
         CandidatePasswordEntity passwordEntity = new CandidatePasswordEntity();
         passwordEntity.setPassword(passwordEncoder.encode(request.getPassword()));
