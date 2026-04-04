@@ -3,8 +3,11 @@ package com.example.hirehub.service.adminService;
 import com.example.hirehub.exception.UserNotFoundException;
 import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
+import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.enumeration.Status;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.repository.CandidateRepository;
+import com.example.hirehub.repository.JobPostingRepository;
 import com.example.hirehub.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
@@ -24,6 +27,7 @@ import java.util.Optional;
 public class AdminServiceImpl implements AdminService {
     UserRepository userRepository;
     private final CandidateRepository candidateRepository;
+    private final JobPostingRepository jobPostingRepository;
 
     @Override
     public boolean changeStatus(Long id, Status status) {
@@ -41,12 +45,24 @@ public class AdminServiceImpl implements AdminService {
         if(entity!=null){
             entity.setUser(optionalUser.get());
             optionalUser.get().setCandidateEntity(entity);
-//            entity.setStatus(status);
             candidateRepository.save(entity);
         }
-
-
         log.info("Status is changed to ACTIVE");
+        return true;
+    }
+
+    @Override
+    public boolean changeStatusJobPost(Long id, StatusJobPost status) {
+        Optional<JobPostingEntity> optionalPost = jobPostingRepository.findByIdNativeAll(id);
+        if (optionalPost.isEmpty()) {
+            log.warn("Job Posting not found with {} ",id);
+            throw new UserNotFoundException("Job Post not found!");
+        }
+
+        optionalPost.get().setStatus(status);
+        optionalPost.get().setLastUpdate(LocalDateTime.now());
+        jobPostingRepository.save(optionalPost.get());
+        log.info("Job Post Status is changed successfully!");
         return true;
     }
 }

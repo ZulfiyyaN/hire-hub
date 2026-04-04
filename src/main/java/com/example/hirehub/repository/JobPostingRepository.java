@@ -13,5 +13,6 @@ public interface JobPostingRepository extends JpaRepository<JobPostingEntity, Lo
     @Query(value = "SELECT * FROM job_postings jp WHERE jp.id = :id AND jp.status IN('PENDING', 'ACTIVE') ", nativeQuery = true)
     Optional<JobPostingEntity> findByIdNative(@Param("id") Long id);
 
-
+    @Query(value = "SELECT * FROM job_postings jp WHERE jp.id = :id AND jp.status IN('PENDING', 'ACTIVE', 'DELETED', 'EXPIRED') ", nativeQuery = true)
+    Optional<JobPostingEntity> findByIdNativeAll(@Param("id") Long id);
 }
