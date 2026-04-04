@@ -12,16 +12,17 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-   Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 
 
-   @Query(value = "SELECT * FROM user_entity u WHERE u.id = :id", nativeQuery = true)
-   Optional<UserEntity> findByIdNative(@Param("id") Long id);
+    @Query(value = "SELECT * FROM user_entity u WHERE u.id = :id", nativeQuery = true)
+    Optional<UserEntity> findByIdNative(@Param("id") Long id);
 
-   @Query(value = "SELECT * FROM user_entity WHERE status = :status", nativeQuery = true)
-   List<UserEntity> findAllByStatus(@Param("status")String status);
+    @Query(value = "SELECT * FROM user_entity WHERE status = :status", nativeQuery = true)
+    List<UserEntity> findAllByStatus(@Param("status") String status);
 
-
+    @Query(value = "SELECT * FROM user_entity WHERE role = :role", nativeQuery = true)
+    List<UserEntity> findAllByRole(@Param("role") String role);
 
 
 }
