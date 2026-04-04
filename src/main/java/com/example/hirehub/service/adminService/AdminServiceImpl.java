@@ -74,9 +74,8 @@ public class AdminServiceImpl implements AdminService {
         List<UserEntity> users = userRepository.findAllByStatus(status.name());
         if (users.isEmpty()) {
             log.warn("{} user not found! ", status);
-            throw new UserNotFoundException("Pending " + status + " not found!");
+            throw new UserNotFoundException( status + " not found!");
         }
-
         List<UserResponse> response = users.stream()
                 .map(user -> new UserResponse(
                         user.getId(),
@@ -86,5 +85,23 @@ public class AdminServiceImpl implements AdminService {
                 ))
                 .toList();
         return response;
+    }
+
+    @Override
+    public List<UserResponse> getAllByRole(Role role) {
+       List<UserEntity> users = userRepository.findAllByRole(role.name());
+       if(users.isEmpty()){
+           log.warn("{} user not found! ", role);
+           throw new UserNotFoundException( role + " not found!");
+       }
+       List<UserResponse> userList = users.stream()
+               .map(user -> new UserResponse(
+                       user.getId(),
+                       user.getEmail(),
+                       user.getRole(),
+                       user.getStatus()
+               ))
+               .toList();
+        return userList;
     }
 }

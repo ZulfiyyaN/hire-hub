@@ -18,5 +18,5 @@ public interface AdminService {
 
     List<UserResponse> getAllByStatus(Status status);
 
-//    void blockUser(String email);
+    List<UserResponse> getAllByRole(Role role);
 }
