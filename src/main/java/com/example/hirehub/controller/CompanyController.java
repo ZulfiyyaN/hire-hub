@@ -1,5 +1,6 @@
 package com.example.hirehub.controller;
 
+import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
@@ -69,7 +70,11 @@ public class CompanyController {
 
 
 
+    @GetMapping("/test")
+    public String test() {
 
+        throw  new AlreadyExistsException("Yoxlamaq");
+    }
 
 
 

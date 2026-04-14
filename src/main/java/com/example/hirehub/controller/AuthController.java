@@ -1,5 +1,6 @@
 package com.example.hirehub.controller;
 
+import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.model.request.AuthRequest;
 import com.example.hirehub.model.response.AuthResponse;
 import com.example.hirehub.service.AuthService;

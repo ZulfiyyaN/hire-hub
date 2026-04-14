@@ -1,5 +1,6 @@
 package com.example.hirehub.controller;
 
+import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
@@ -72,7 +73,8 @@ public class CandidateController {
 
     @GetMapping("/test")
     public String test() {
-        return "secured endpoint works";
+
+        throw  new AlreadyExistsException("Yoxlamaq");
     }
 
 }
