@@ -145,7 +145,7 @@ public class CandidateServiceImpl implements CandidateService {
             throw new JobPostingNotFoundException(" Active job post not found!");
         }
         List<JobPostResponse> allActiveResponses = postings.stream()
-                .filter(a->Status.ACTIVE.equals( a.getStatus()) )
+                .filter(a-> a.getStatus().equals(Status.ACTIVE))
                 .map(post -> {
                     CompanyShortResponse companyShort = new CompanyShortResponse(
                             post.getCompany().getName(),
