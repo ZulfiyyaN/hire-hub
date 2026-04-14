@@ -8,7 +8,7 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/dockerdemo
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hirehub
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres123
     depends_on:
@@ -28,7 +28,7 @@ services:
     image: public.ecr.aws/docker/library/postgres:15-alpine
     container_name: docker-hirehub-db
     environment:
-      POSTGRES_DB: dockerdemo
+      POSTGRES_DB: hirehub
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
     volumes:
@@ -38,7 +38,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d dockerdemo"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d hirehub"]
       interval: 10s
       timeout: 5s
       retries: 5

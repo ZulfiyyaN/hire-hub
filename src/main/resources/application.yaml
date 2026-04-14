@@ -3,9 +3,9 @@ spring:
     name: HireHub
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/hirehub
+    url: jdbc:postgresql://db:5432/hirehub
     username: postgres
-    password: 1234
+    password: postgres123
 
   jpa:
     hibernate:
