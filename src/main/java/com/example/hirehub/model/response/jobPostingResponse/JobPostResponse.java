@@ -9,7 +9,7 @@ public record JobPostResponse(Long id,
                               String location,
                               String position,
                               Double salary,
-                              String workType, // Enum-u String kimi gonderirik.
+                              String workType,
                               String workPlace,
                               String expLevel,
                               String eduReq,
