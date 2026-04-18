@@ -18,4 +18,6 @@ public interface CandidateService {
     public boolean deleteProfilForCandidate(String email);
 
     public List<JobPostResponse> getAllActiveJobPosts();
+
+    public boolean applyJob(Long id);
 }

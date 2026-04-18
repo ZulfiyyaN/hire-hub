@@ -3,18 +3,21 @@ package com.example.hirehub.service.candidateService;
 import com.example.hirehub.exception.*;
 import com.example.hirehub.mapper.CandidateMapperForRegister;
 import com.example.hirehub.mapper.CandidateMapperForUpdate;
+import com.example.hirehub.model.entity.ApplicationEntity;
 import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateInfoEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.enumeration.Role;
 import com.example.hirehub.model.enumeration.Status;
+import com.example.hirehub.model.enumeration.StatusApplication;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
 import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyShortResponse;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
+import com.example.hirehub.repository.ApplicationRepository;
 import com.example.hirehub.repository.CandidateRepository;
 import com.example.hirehub.repository.JobPostingRepository;
 import com.example.hirehub.repository.UserRepository;
@@ -23,6 +26,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +47,8 @@ public class CandidateServiceImpl implements CandidateService {
     CandidateMapperForUpdate candidateMapperForUpdate;
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
-    private final JobPostingRepository jobPostingRepository;
+    JobPostingRepository jobPostingRepository;
+    ApplicationRepository applicationRepository;
 
     @Override
     public CandidateRegisterResponse candidateRegister(CandidateRegisterRequest request) {
@@ -145,7 +150,7 @@ public class CandidateServiceImpl implements CandidateService {
             throw new JobPostingNotFoundException(" Active job post not found!");
         }
         List<JobPostResponse> allActiveResponses = postings.stream()
-                .filter(a-> a.getStatus().equals(Status.ACTIVE))
+                .filter(a -> a.getStatus().equals(Status.ACTIVE))
                 .map(post -> {
                     CompanyShortResponse companyShort = new CompanyShortResponse(
                             post.getCompany().getName(),
@@ -171,4 +176,40 @@ public class CandidateServiceImpl implements CandidateService {
                 .toList();
         return allActiveResponses;
     }
+
+    @Override
+    public boolean applyJob(Long id) {
+        Optional<JobPostingEntity> jobPosting = jobPostingRepository.findByIdNative(id);
+        if (jobPosting.isEmpty()) {
+            log.warn("Job post not found with {} id! ", id);
+            throw new JobPostingNotFoundException("Job post with " + id + " not found!");
+        }
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<CandidateEntity> optionalCandidate = candidateRepository.findByEmail(email);
+        if (optionalCandidate.isEmpty()) {
+            log.warn("Candidate not found!");
+            throw new CandidateNotFoundException("Candidate not found!");
+        }
+
+        ApplicationEntity application = new ApplicationEntity();
+        application.setCandidate(optionalCandidate.get());
+        application.setJobPosting(jobPosting.get());
+        application.setApplicationDate(LocalDateTime.now());
+        application.setStatus(StatusApplication.APPLIED);
+
+        applicationRepository.save(application);
+        return true;
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
