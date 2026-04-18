@@ -12,12 +12,14 @@ import com.example.hirehub.security.JwtService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -40,7 +42,7 @@ public class AuthService {
                 optionalUser.get().getRole().name());
         String refreshToken = "Bearer " + jwtService.generateRefreshToken(optionalUser.get().getEmail(),
                 optionalUser.get().getRole().name());
-
+        log.info("Authentication is successful!");
         return new AuthResponse(accessToken, refreshToken);
     }
 
