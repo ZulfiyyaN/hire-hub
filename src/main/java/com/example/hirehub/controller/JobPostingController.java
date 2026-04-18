@@ -28,11 +28,12 @@ public class JobPostingController {
                                                                   Authentication authentication){
         if (authentication == null) {
             log.warn("Access denied: No authentication found");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Candidate not found!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
         }
+        log.info("Access accepted!");
         String email = authentication.getName();
        JobPostingCreateResponse response =  jobPostingService.createJobPost(email, request);
-        System.out.println(email);
+       log.info("Job post is created");
         return ResponseEntity.ok(response);
     }
 
