@@ -7,6 +7,7 @@ import com.example.hirehub.mapper.JobPostingMapperForUpdate;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingEntity;
 import com.example.hirehub.model.entity.jobPostingEntities.JobPostingInfoEntity;
+import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingUpdateRequest;
@@ -41,8 +42,12 @@ public class JobPostingServiceImpl implements JobPostingService {
             log.warn("Email is wrong!");
             throw new CompanyNotFoundException("Company not found!");
         }
+        if(!companyEntity.get().getUser().getStatus().equals(Status.ACTIVE)){
+            log.warn("Company status is not ACTIVE!");
+            throw new CompanyNotFoundException("Company status is not ACTIVE!");
+        }
         JobPostingEntity jobEntity = jobPostingMapperForCreate.toEntity(request);
-        jobEntity.setStatus(StatusJobPost.PENDING);
+
         jobEntity.setCompany(companyEntity.get());
 
         jobPostingRepository.save(jobEntity);
