@@ -3,7 +3,7 @@ spring:
     name: HireHub
 
   datasource:
-    url: jdbc:postgresql://db:5432/hirehub
+    url: jdbc:postgresql://localhost:5432/hirehub
     username: postgres
     password: postgres123
 
@@ -11,10 +11,13 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
 
+  mvc:
+    log-request-details: true
 
 server:
   port: 8080
@@ -24,3 +27,11 @@ app:
     secret: very-very-very-difficul-way-but-it-is-my-choice-very-very-very
     access-expiration: 300000000000
     refresh-expiration: 300000000000000000
+
+
+  level:
+    root: INFO
+    com.example.hirehub: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
