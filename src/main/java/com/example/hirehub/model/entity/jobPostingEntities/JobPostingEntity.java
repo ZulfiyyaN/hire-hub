@@ -2,7 +2,6 @@ package com.example.hirehub.model.entity.jobPostingEntities;
 
 
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
-import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.StatusJobPost;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -33,7 +32,7 @@ public class JobPostingEntity {
     LocalDateTime lastUpdate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    StatusJobPost status;
+    StatusJobPost status=StatusJobPost.ACTIVE;
     @OneToOne(mappedBy = "jobPostingEntity", cascade = CascadeType.ALL)
     JobPostingInfoEntity jobPostingInfoEntity;
     @ManyToOne
