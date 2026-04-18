@@ -9,7 +9,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class HireHubApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HireHubApplication.class, args);
+
+        System.out.println("--- PROQRAM BASLADI ---");
+
+       SpringApplication.run(HireHubApplication.class, args);
     }
+
+
+
+
 
 }
