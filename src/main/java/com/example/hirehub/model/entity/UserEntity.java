@@ -30,6 +30,7 @@ public class UserEntity {
     @Column(nullable = false)
     Status status;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     Role role;
 
