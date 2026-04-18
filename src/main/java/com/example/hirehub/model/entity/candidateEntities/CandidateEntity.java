@@ -32,6 +32,8 @@ public class CandidateEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     Gender gender;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     Role role = Role.CANDIDATE;
 
