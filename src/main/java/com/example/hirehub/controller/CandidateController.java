@@ -71,6 +71,14 @@ public class CandidateController {
     }
 
 
+    @PostMapping("apply_job/{id}")
+    public ResponseEntity<?> applyJob(@PathVariable Long id){
+        Boolean result = candidateService.applyJob(id);
+        return ResponseEntity.ok(result);
+    }
+
+
+
     @GetMapping("/test")
     public String test() {
 
