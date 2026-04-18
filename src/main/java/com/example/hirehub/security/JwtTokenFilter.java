@@ -1,19 +1,20 @@
 package com.example.hirehub.security;
 
-import com.example.hirehub.exception.IncorrectPasswordException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.impl.InvalidContentTypeException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+
 
 @Slf4j
 @Component
@@ -28,9 +29,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.equals("/api/candidate/register") ||
-                path.equals("/api/candidate/register") ||
+                path.equals("/api/company/register") ||
                         path.equals("/api/auth/login");
     }
+
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
