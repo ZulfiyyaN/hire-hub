@@ -5,10 +5,10 @@ services:
       dockerfile: Dockerfile.multi
     container_name: docker-hirehub-app
     ports:
-      - "8080:8080"
+      - "9090:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hirehub
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://docker-hirehub-db:5432/hirehub
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres123
     depends_on:
@@ -18,7 +18,7 @@ services:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
