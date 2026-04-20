@@ -33,6 +33,8 @@ public class ApplicationEntity {
 
     LocalDateTime applicationDate;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     StatusApplication status;
 
 
