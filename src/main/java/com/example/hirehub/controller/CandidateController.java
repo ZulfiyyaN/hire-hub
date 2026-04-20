@@ -11,6 +11,7 @@ import com.example.hirehub.model.response.companyResponse.CompanyRegisterRespons
 import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
 import com.example.hirehub.repository.JobPostingRepository;
 import com.example.hirehub.service.candidateService.CandidateService;
+import com.example.hirehub.service.jobPostingService.JobPostingService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ import java.util.List;
 public class CandidateController {
 
     CandidateService candidateService;
+    private final JobPostingRepository jobPostingRepository;
+    private final JobPostingService jobPostingService;
 
     @PostMapping("/register")
     public ResponseEntity<CandidateRegisterResponse> register(@RequestBody @Valid CandidateRegisterRequest request) {
@@ -66,7 +69,7 @@ public class CandidateController {
 
     @GetMapping("/all_job_posts")
     public ResponseEntity<List<JobPostResponse>> getAllJobPosts(Authentication authentication) {
-        List<JobPostResponse> jobPosts = candidateService.getAllActiveJobPosts();
+        List<JobPostResponse> jobPosts = jobPostingService.getAllActiveJobPosts();
         return ResponseEntity.ok(jobPosts);
     }
 
