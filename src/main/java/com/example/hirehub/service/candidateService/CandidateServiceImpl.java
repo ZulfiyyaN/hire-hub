@@ -36,6 +36,8 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @Slf4j
 @Transactional
@@ -142,54 +144,28 @@ public class CandidateServiceImpl implements CandidateService {
         return true;
     }
 
-    @Override
-    public List<JobPostResponse> getAllActiveJobPosts() {
-        List<JobPostingEntity> postings = jobPostingRepository.findAll();
-        if (postings.isEmpty()) {
-            log.warn("Active job post not found! ");
-            throw new JobPostingNotFoundException(" Active job post not found!");
-        }
-        List<JobPostResponse> allActiveResponses = postings.stream()
-                .filter(a -> a.getStatus().equals(Status.ACTIVE))
-                .map(post -> {
-                    CompanyShortResponse companyShort = new CompanyShortResponse(
-                            post.getCompany().getName(),
-                            post.getCompany().getEmail(),
-                            post.getCompany().getCompanyInfo().getWebsite());
-
-                    JobPostResponse postResponse = new JobPostResponse(
-                            post.getId(),
-                            post.getJobTitle(),
-                            post.getJobPostingInfoEntity().getLocation(),
-                            post.getJobPostingInfoEntity().getPosition(),
-                            post.getJobPostingInfoEntity().getSalary(),
-                            post.getJobPostingInfoEntity().getWorkType().name(),
-                            post.getJobPostingInfoEntity().getWorkPlace().name(),
-                            post.getJobPostingInfoEntity().getExpLevel(),
-                            post.getJobPostingInfoEntity().getEduReq(),
-                            post.getJobPostingInfoEntity().getSkills(),
-                            post.getJobPostingInfoEntity().getJobPostingEntity().getExpiredDate(),
-                            companyShort
-                    );
-                    return postResponse;
-                })
-                .toList();
-        return allActiveResponses;
-    }
 
     @Override
     public boolean applyJob(Long id) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<CandidateEntity> optionalCandidate = candidateRepository.findByEmail(email);
+        if (optionalCandidate.isEmpty()) {
+            log.warn("Candidate not found!");
+            throw new CandidateNotFoundException("Candidate not found!");
+        }
+
         Optional<JobPostingEntity> jobPosting = jobPostingRepository.findByIdNative(id);
         if (jobPosting.isEmpty()) {
             log.warn("Job post not found with {} id! ", id);
             throw new JobPostingNotFoundException("Job post with " + id + " not found!");
         }
 
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<CandidateEntity> optionalCandidate = candidateRepository.findByEmail(email);
-        if (optionalCandidate.isEmpty()) {
-            log.warn("Candidate not found!");
-            throw new CandidateNotFoundException("Candidate not found!");
+        if (applicationRepository.existsByJobPosting_IdAndCandidate_Id(
+                jobPosting.get().getId(),
+                optionalCandidate.get().getId())) {
+
+            log.warn("This job posting is applied before by candidate with {} id ", optionalCandidate.get().getId());
+            throw new AlreadyDoneBeforeException("Already applied!");
         }
 
         ApplicationEntity application = new ApplicationEntity();
@@ -199,6 +175,8 @@ public class CandidateServiceImpl implements CandidateService {
         application.setStatus(StatusApplication.APPLIED);
 
         applicationRepository.save(application);
+
+        log.info("You successfully applied job post with {} ", id);
         return true;
     }
 
