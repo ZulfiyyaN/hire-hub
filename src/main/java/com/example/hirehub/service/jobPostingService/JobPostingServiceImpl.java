@@ -11,6 +11,8 @@ import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingUpdateRequest;
+import com.example.hirehub.model.response.companyResponse.CompanyShortResponse;
+import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingUpdateResponse;
 import com.example.hirehub.repository.CompanyRepository;
@@ -22,6 +24,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -139,4 +142,36 @@ public class JobPostingServiceImpl implements JobPostingService {
         log.info("Post is deleted!");
         return true;
     }
-}
+
+        @Override
+        public List<JobPostResponse> getAllActiveJobPosts() {
+            List<JobPostingEntity> postings = jobPostingRepository.findAll();
+            if (postings.isEmpty()) {
+                log.warn("Active job post not found! ");
+                throw new JobPostingNotFoundException(" Active job post not found!");
+            }
+            List<JobPostResponse> allActiveResponses = postings.stream()
+                    .filter(a -> a.getStatus().equals(StatusJobPost.ACTIVE))
+                    .map(post -> new JobPostResponse(
+                            post.getJobTitle(),
+                            post.getJobPostingInfoEntity().getLocation(),
+                            post.getJobPostingInfoEntity().getPosition(),
+                            post.getJobPostingInfoEntity().getSalary(),
+                            post.getJobPostingInfoEntity().getWorkType().name(),
+                            post.getJobPostingInfoEntity().getWorkPlace().name(),
+                            post.getJobPostingInfoEntity().getExpLevel(),
+                            post.getJobPostingInfoEntity().getEduReq(),
+                            post.getJobPostingInfoEntity().getSkills(),
+                            post.getJobPostingInfoEntity().getJobPostingEntity().getExpiredDate(),
+                            new CompanyShortResponse(
+                                    post.getCompany().getName(),
+                                    post.getCompany().getEmail(),
+                                    post.getCompany().getCompanyInfo().getWebsite())
+                    ))
+                    .toList();
+            log.info("All active job posts: ");
+            return allActiveResponses;
+        }
+
+    }
+

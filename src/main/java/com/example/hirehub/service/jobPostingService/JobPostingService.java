@@ -2,8 +2,11 @@ package com.example.hirehub.service.jobPostingService;
 
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingCreateRequest;
 import com.example.hirehub.model.request.jobPostingRequest.JobPostingUpdateRequest;
+import com.example.hirehub.model.response.jobPostingResponse.JobPostResponse;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingCreateResponse;
 import com.example.hirehub.model.response.jobPostingResponse.JobPostingUpdateResponse;
+
+import java.util.List;
 
 public interface JobPostingService {
 
@@ -13,4 +16,5 @@ public interface JobPostingService {
 
     public boolean deleteJobPost(String email, Long jobPostId);
 
+    public List<JobPostResponse> getAllActiveJobPosts();
 }
