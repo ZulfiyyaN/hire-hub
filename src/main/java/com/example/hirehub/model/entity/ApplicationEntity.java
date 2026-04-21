@@ -37,5 +37,7 @@ public class ApplicationEntity {
     @Enumerated(EnumType.STRING)
     StatusApplication status;
 
+    LocalDateTime decisionDate;
+
 
 }
