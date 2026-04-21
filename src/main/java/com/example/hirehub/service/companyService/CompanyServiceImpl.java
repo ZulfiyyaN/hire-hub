@@ -2,8 +2,10 @@ package com.example.hirehub.service.companyService;
 
 import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.exception.CompanyNotFoundException;
+import com.example.hirehub.mapper.ApplicationMapper;
 import com.example.hirehub.mapper.CompanyMapperForRegister;
 import com.example.hirehub.mapper.CompanyMapperForUpdate;
+import com.example.hirehub.model.entity.ApplicationEntity;
 import com.example.hirehub.model.entity.UserEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
@@ -11,9 +13,11 @@ import com.example.hirehub.model.enumeration.Role;
 import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
+import com.example.hirehub.model.response.ApplicationResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
+import com.example.hirehub.repository.ApplicationRepository;
 import com.example.hirehub.repository.CandidateRepository;
 import com.example.hirehub.repository.CompanyRepository;
 import com.example.hirehub.repository.UserRepository;
@@ -42,6 +46,8 @@ public class CompanyServiceImpl implements CompanyService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     CandidateRepository candidateRepository;
+    ApplicationRepository applicationRepository;
+    ApplicationMapper applicationMapper;
 
     @Override
     public CompanyRegisterResponse companyRegister(CompanyRegisterRequest request) {
@@ -55,7 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.COMPANY);
-        user.setStatus(Status.PENDING);
+        user.setStatus(Status.ACTIVE);
 
         companyEntity.setUser(user);
         user.setCompanyEntity(companyEntity);
@@ -113,7 +119,7 @@ public class CompanyServiceImpl implements CompanyService {
     public List<CandidateResponse> getAllCandidates() {
         List<CandidateEntity> allCandidates = candidateRepository.findAll();
         List<CandidateResponse> allResponses = allCandidates.stream()
-                .filter(a-> a.getUser() != null && a.getUser().getStatus()== Status.ACTIVE )
+                .filter(a -> a.getUser() != null && a.getUser().getStatus() == Status.ACTIVE)
                 .map(c -> new CandidateResponse(
                                 c.getId(),
                                 c.getName(),
@@ -129,6 +135,16 @@ public class CompanyServiceImpl implements CompanyService {
                 )
                 .toList();
         return allResponses;
+    }
 
+
+    @Override
+    public List<ApplicationResponse> getAllApplications(String email) {
+        List<ApplicationEntity> allApplications = applicationRepository.findAll();
+        List<ApplicationResponse> responses = allApplications.stream()
+                .filter(a -> a.getJobPosting().getCompany().getEmail().equals(email))
+                .map(m -> applicationMapper.toResponse(m))
+                .toList();
+        return responses;
     }
 }
