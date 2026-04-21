@@ -3,6 +3,7 @@ package com.example.hirehub.controller;
 import com.example.hirehub.exception.AlreadyExistsException;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
+import com.example.hirehub.model.response.ApplicationResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
@@ -28,6 +29,7 @@ import java.util.List;
 public class CompanyController {
     CompanyService companyService;
     CandidateService candidateService;
+
 
     @PostMapping("/register")
     public ResponseEntity<CompanyRegisterResponse> register(@RequestBody @Valid CompanyRegisterRequest request) {
@@ -69,18 +71,19 @@ public class CompanyController {
     }
 
 
+    @GetMapping("all_applications")
+    public ResponseEntity<?> getAllApplied(Authentication auth) {
+        List<ApplicationResponse> result = companyService.getAllApplications(auth.getName());
+        return ResponseEntity.ok(result);
+
+    }
+
 
     @GetMapping("/test")
     public String test() {
 
-        throw  new AlreadyExistsException("Yoxlamaq");
+        throw new AlreadyExistsException("Yoxlamaq");
     }
-
-
-
-
-
-
 
 
 }
