@@ -1,7 +1,9 @@
 package com.example.hirehub.service.companyService;
 
 import com.example.hirehub.exception.AlreadyExistsException;
+import com.example.hirehub.exception.ApplicationNotFoundException;
 import com.example.hirehub.exception.CompanyNotFoundException;
+import com.example.hirehub.exception.MismatchCompanyApplicationException;
 import com.example.hirehub.mapper.ApplicationMapper;
 import com.example.hirehub.mapper.CompanyMapperForRegister;
 import com.example.hirehub.mapper.CompanyMapperForUpdate;
@@ -11,6 +13,8 @@ import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.entity.companyEntities.CompanyEntity;
 import com.example.hirehub.model.enumeration.Role;
 import com.example.hirehub.model.enumeration.Status;
+import com.example.hirehub.model.enumeration.StatusApplication;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.ApplicationResponse;
@@ -26,6 +30,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -146,5 +151,22 @@ public class CompanyServiceImpl implements CompanyService {
                 .map(m -> applicationMapper.toResponse(m))
                 .toList();
         return responses;
+    }
+
+
+    @Override
+    public boolean changeStatusApplication(String email, Long id, StatusApplication status) {
+        Optional<ApplicationEntity> optionalApplication = applicationRepository.findById(id);
+        if (optionalApplication.isEmpty()) {
+            log.warn("Id is wrong");
+            throw new ApplicationNotFoundException("Application not found!" + id);
+        }
+
+        if (!optionalApplication.get().getJobPosting().getCompany().getEmail().equals(email)) {
+            log.warn("Application is not for company {}", email);
+            throw new MismatchCompanyApplicationException("This application is not belong to company" + email);
+        }
+        optionalApplication.get().setStatus(status);
+        return true;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.hirehub.service.companyService;
 
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
+import com.example.hirehub.model.enumeration.StatusApplication;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.ApplicationResponse;
@@ -20,5 +22,8 @@ public interface CompanyService {
     public boolean deleteProfilForCompany(String email);
 
     public List<CandidateResponse> getAllCandidates();
+
     public List<ApplicationResponse> getAllApplications(String email);
+
+    public boolean changeStatusApplication(String email, Long id, StatusApplication status);
 }
