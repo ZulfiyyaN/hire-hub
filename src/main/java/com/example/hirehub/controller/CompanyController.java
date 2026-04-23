@@ -1,12 +1,15 @@
 package com.example.hirehub.controller;
 
 import com.example.hirehub.exception.AlreadyExistsException;
+import com.example.hirehub.model.enumeration.StatusApplication;
+import com.example.hirehub.model.enumeration.StatusJobPost;
 import com.example.hirehub.model.request.companyRequest.CompanyRegisterRequest;
 import com.example.hirehub.model.request.companyRequest.CompanyUpdateRequest;
 import com.example.hirehub.model.response.ApplicationResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyRegisterResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyUpdateResponse;
+import com.example.hirehub.repository.ApplicationRepository;
 import com.example.hirehub.service.candidateService.CandidateService;
 import com.example.hirehub.service.companyService.CompanyService;
 import jakarta.validation.Valid;
@@ -29,6 +32,7 @@ import java.util.List;
 public class CompanyController {
     CompanyService companyService;
     CandidateService candidateService;
+    private final ApplicationRepository applicationRepository;
 
 
     @PostMapping("/register")
@@ -71,12 +75,24 @@ public class CompanyController {
     }
 
 
-    @GetMapping("all_applications")
+    @GetMapping("/all_applications")
     public ResponseEntity<?> getAllApplied(Authentication auth) {
         List<ApplicationResponse> result = companyService.getAllApplications(auth.getName());
         return ResponseEntity.ok(result);
 
     }
+
+
+    @PutMapping("/change_status_application/{id}")
+    public ResponseEntity<?> changestatusApplication(@PathVariable Long id,
+                                                     @RequestParam StatusApplication status,
+                                                     Authentication auth) {
+        Boolean result = companyService.changeStatusApplication(auth.getName(), id, status);
+        return ResponseEntity.ok(result);
+    }
+
+
+
 
 
     @GetMapping("/test")
