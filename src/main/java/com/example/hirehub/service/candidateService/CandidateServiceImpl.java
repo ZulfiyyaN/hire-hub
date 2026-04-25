@@ -1,6 +1,7 @@
 package com.example.hirehub.service.candidateService;
 
 import com.example.hirehub.exception.*;
+import com.example.hirehub.mapper.ApplicationMapper;
 import com.example.hirehub.mapper.CandidateMapperForRegister;
 import com.example.hirehub.mapper.CandidateMapperForUpdate;
 import com.example.hirehub.model.entity.ApplicationEntity;
@@ -13,6 +14,7 @@ import com.example.hirehub.model.enumeration.Status;
 import com.example.hirehub.model.enumeration.StatusApplication;
 import com.example.hirehub.model.request.candidateRequest.CandidateRegisterRequest;
 import com.example.hirehub.model.request.candidateRequest.CandidateUpdateRequest;
+import com.example.hirehub.model.response.ApplicationForCandidateResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateRegisterResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateUpdateResponse;
 import com.example.hirehub.model.response.companyResponse.CompanyShortResponse;
@@ -51,6 +53,7 @@ public class CandidateServiceImpl implements CandidateService {
     PasswordEncoder passwordEncoder;
     JobPostingRepository jobPostingRepository;
     ApplicationRepository applicationRepository;
+    private final ApplicationMapper applicationMapper;
 
     @Override
     public CandidateRegisterResponse candidateRegister(CandidateRegisterRequest request) {
@@ -80,7 +83,6 @@ public class CandidateServiceImpl implements CandidateService {
         user.setCandidateEntity(candidateEntity);
         userRepository.save(user);
         candidateRepository.save(candidateEntity);
-
 
         CandidateRegisterResponse response = candidateMapper.toResponse(candidateEntity);
         log.info("{} is registered", request.getName() + " " + request.getSurname());
@@ -180,6 +182,25 @@ public class CandidateServiceImpl implements CandidateService {
         return true;
     }
 
+
+    @Override
+    public List<ApplicationForCandidateResponse> getApplications(String email) {
+        if (!candidateRepository.existsByEmail(email)) {
+            log.warn("Candidate not found");
+            throw new CandidateNotFoundException("Not found!");
+        }
+        Long id = candidateRepository.findByEmail(email).get().getId();
+        List<ApplicationEntity> list = applicationRepository.findByCandidateId(id);
+
+        if (list.isEmpty()) {
+            log.warn("Candidate does not have application!");
+            throw new CandidateNotFoundException("Not found!");
+        }
+        List<ApplicationForCandidateResponse> appList = list.stream()
+                .map(a -> applicationMapper.toResponseForCandidate(a))
+                .toList();
+        return appList;
+    }
 
 }
 
