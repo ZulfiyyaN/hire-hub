@@ -3,6 +3,7 @@ package com.example.hirehub.mapper;
 import com.example.hirehub.model.entity.ApplicationEntity;
 import com.example.hirehub.model.entity.candidateEntities.CandidateEntity;
 import com.example.hirehub.model.enumeration.StatusApplication;
+import com.example.hirehub.model.response.ApplicationForCandidateResponse;
 import com.example.hirehub.model.response.ApplicationResponse;
 import com.example.hirehub.model.response.candidateResponse.CandidateResponse;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,36 @@ public class ApplicationMapper {
 
         return response;
     }
+
+
+    public ApplicationForCandidateResponse toResponseForCandidate(ApplicationEntity entity){
+        ApplicationForCandidateResponse response = new ApplicationForCandidateResponse();
+        response.setId(entity.getId());
+        response.setJobTitle(entity.getJobPosting().getJobTitle());
+        response.setEduReq(entity.getJobPosting().getJobPostingInfoEntity().getEduReq());
+        response.setExpLevel(entity.getJobPosting().getJobPostingInfoEntity().getExpLevel());
+        response.setSkills(entity.getJobPosting().getJobPostingInfoEntity().getSkills());
+        response.setLocation(entity.getJobPosting().getJobPostingInfoEntity().getLocation());
+        response.setWorkType(entity.getJobPosting().getJobPostingInfoEntity().getWorkType());
+        response.setWorkPlace(entity.getJobPosting().getJobPostingInfoEntity().getWorkPlace());
+        response.setSalary(entity.getJobPosting().getJobPostingInfoEntity().getSalary());
+        response.setPosition(entity.getJobPosting().getJobPostingInfoEntity().getPosition());
+        response.setCompanyName(entity.getJobPosting().getCompany().getName());
+        response.setCompanyEmail(entity.getJobPosting().getCompany().getEmail());
+        response.setCreatedAtProfile(entity.getJobPosting().getCompany().getCreatedAt());
+        response.setExpiredDate(entity.getJobPosting().getExpiredDate());
+        response.setStatus(entity.getJobPosting().getStatus());
+        response.setApplicationDate(entity.getApplicationDate());
+        response.setStatusApplication(entity.getStatus());
+        response.setDecisionDate(entity.getDecisionDate());
+     return response;
+    }
+
+
+
+
+
+
 
 
 }
