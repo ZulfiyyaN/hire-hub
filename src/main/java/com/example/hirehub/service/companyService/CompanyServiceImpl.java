@@ -167,6 +167,7 @@ public class CompanyServiceImpl implements CompanyService {
             throw new MismatchCompanyApplicationException("This application is not belong to company" + email);
         }
         optionalApplication.get().setStatus(status);
+        log.info("status is changed to {} ", status);
         return true;
     }
 }
