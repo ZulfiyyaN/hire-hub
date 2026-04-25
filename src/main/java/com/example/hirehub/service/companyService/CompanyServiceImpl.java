@@ -168,6 +168,8 @@ public class CompanyServiceImpl implements CompanyService {
         }
         optionalApplication.get().setStatus(status);
         log.info("status is changed to {} ", status);
+
+        optionalApplication.get().setDecisionDate(LocalDateTime.now());
         return true;
     }
 }
